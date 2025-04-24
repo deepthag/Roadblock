@@ -15,9 +15,17 @@ public class GemBehavior : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
+        if (other.gameObject.CompareTag("Obstacle"))
+        {
+            Destroy(gameObject);
+            return;
+        }
+        
         if (other.gameObject.CompareTag("Player"))
         {
             Destroy(gameObject);
+            GameBehavior.Instance.ScorePoint();
         }
+        
     }
 }
