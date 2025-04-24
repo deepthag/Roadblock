@@ -13,12 +13,5 @@ public class ObstacleBehavior : MonoBehaviour
     {
         
     }
-
-    void OnCollisionEnter(Collision collision)
-    {
-        if (collision.gameObject.tag == "Player")
-        {
-            playerMovement.ResetGame();
-        }
-    }
+    
 }

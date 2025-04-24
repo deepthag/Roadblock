@@ -6,7 +6,7 @@ public class RoadSpawner : MonoBehaviour
     Vector3 nextSpawnPoint;
     void Start()
     {
-        for (int i = 0; i < 15; i++)
+        for (int i = 0; i < 10; i++)
         {
             SpawnTile();
         }

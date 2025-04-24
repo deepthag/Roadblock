@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using System.Collections;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -7,8 +8,11 @@ public class PlayerMovement : MonoBehaviour
     
     public float _forwardSpeed = 10.0f;
     public float _sideMultiplier = 1.2f;
+    
     public KeyCode RightDirection = KeyCode.RightArrow;
     public KeyCode LeftDirection = KeyCode.LeftArrow;
+    
+    [SerializeField] private float _resetTime = 0.5f;
     void Start()
     {
         
@@ -31,14 +35,22 @@ public class PlayerMovement : MonoBehaviour
 
         if (transform.position.y < -10)
         {
-            ResetGame();
+            StartCoroutine(ResetGame());
         }
         
     }
 
-    public void ResetGame()
+    void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.tag == "Obstacle")
+        {
+            StartCoroutine(ResetGame());
+        }
+    }
+    public IEnumerator ResetGame()
     {
         alive = false;
+        yield return new WaitForSeconds(_resetTime);
         SceneManager.LoadScene("Roadblock");
     }
 }
