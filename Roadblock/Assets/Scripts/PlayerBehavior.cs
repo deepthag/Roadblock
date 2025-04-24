@@ -1,9 +1,12 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerMovement : MonoBehaviour
 {
-    public float _forwardSpeed = 1.0f;
-    public float _sideMultiplier = 2.0f;
+    bool alive = true;
+    
+    public float _forwardSpeed = 10.0f;
+    public float _sideMultiplier = 1.2f;
     public KeyCode RightDirection = KeyCode.RightArrow;
     public KeyCode LeftDirection = KeyCode.LeftArrow;
     void Start()
@@ -13,6 +16,8 @@ public class PlayerMovement : MonoBehaviour
     
     void Update()
     {
+        if (!alive) return;
+        
         transform.position += Vector3.forward * _forwardSpeed * Time.deltaTime;
         
         if (Input.GetKey(RightDirection))
@@ -23,6 +28,17 @@ public class PlayerMovement : MonoBehaviour
         {
             transform.position += Vector3.left * _forwardSpeed * _sideMultiplier * Time.deltaTime; 
         }
+
+        if (transform.position.y < -10)
+        {
+            ResetGame();
+        }
         
+    }
+
+    public void ResetGame()
+    {
+        alive = false;
+        SceneManager.LoadScene("Roadblock");
     }
 }
