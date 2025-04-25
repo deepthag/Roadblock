@@ -153,7 +153,7 @@ GameObject:
   - component: {fileID: 1456049277637558716}
   - component: {fileID: 9072107814241140338}
   m_Layer: 0
-  m_Name: Plane
+  m_Name: Road
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
