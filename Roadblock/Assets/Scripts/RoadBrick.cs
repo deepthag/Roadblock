@@ -7,6 +7,7 @@ public class RoadBrick : MonoBehaviour
     public RoadSpawner roadSpawner;
     public GameObject obstaclePrefab;
     public GameObject gemPrefab;
+    [SerializeField] private int gemsToSpawn = 1;
     void Start()
     {
         roadSpawner = FindFirstObjectByType<RoadSpawner>();
@@ -36,7 +37,6 @@ public class RoadBrick : MonoBehaviour
 
     void SpawnGem()
     {
-        int gemsToSpawn = 2;
         for (int i = 0; i < gemsToSpawn; i++)
         {
             GameObject temp = Instantiate(gemPrefab, transform);
