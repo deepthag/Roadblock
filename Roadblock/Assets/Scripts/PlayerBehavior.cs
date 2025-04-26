@@ -51,6 +51,7 @@ public class PlayerMovement : MonoBehaviour
     {
         alive = false;
         yield return new WaitForSeconds(_resetTime);
+        RoadBrick.roadBricksSpawned = 0;
         SceneManager.LoadScene("Roadblock");
     }
 }

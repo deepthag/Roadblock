@@ -1,6 +1,7 @@
 using System;
 using UnityEngine;
 using Random = System.Random;
+using System.Collections;
 
 public class RoadBrick : MonoBehaviour
 {
@@ -8,10 +9,19 @@ public class RoadBrick : MonoBehaviour
     public GameObject obstaclePrefab;
     public GameObject gemPrefab;
     [SerializeField] private int gemsToSpawn = 1;
+    
+    public static int roadBricksSpawned = 0;
     void Start()
     {
         roadSpawner = FindFirstObjectByType<RoadSpawner>();
-        SpawnObstacle();
+        
+        roadBricksSpawned++; // Increment the counter every time a new brick spawns
+
+        if (roadBricksSpawned > 3)
+        {
+            StartCoroutine(DelayedSpawn()); // Start spawning obstacles only after 3 tiles
+        }
+        
         SpawnGem();
     }
 
@@ -24,15 +34,20 @@ public class RoadBrick : MonoBehaviour
     void OnTriggerExit(Collider other)
     {
         roadSpawner.SpawnTile();
-        Destroy(gameObject, 2);
+        Destroy(gameObject, 4);
     }
 
     void SpawnObstacle()
     {
         int obstacleIndex = UnityEngine.Random.Range(2, 5);
         Transform spawnPoint = transform.GetChild(obstacleIndex).transform;
+
+        Vector3 offset = new Vector3(0, 0, 40f);
+        Vector3 spawnPosition = spawnPoint.position + offset;
+
+        GameObject obstacle = Instantiate(obstaclePrefab, spawnPosition, Quaternion.identity, transform);
         
-        Instantiate(obstaclePrefab, spawnPoint.position, Quaternion.identity, transform);
+        StartCoroutine(FadeInObstacle(obstacle));
     }
 
     void SpawnGem()
@@ -60,4 +75,43 @@ public class RoadBrick : MonoBehaviour
         point.y = 0.25f;
         return point;
     }
+    
+    public IEnumerator DelayedSpawn()
+    {
+        yield return new WaitForSeconds(3f); 
+        SpawnObstacle();
+    }
+    
+    IEnumerator FadeInObstacle(GameObject obstacle)
+    {
+        Renderer renderer = obstacle.GetComponent<Renderer>();
+
+        if (renderer == null)
+        {
+            renderer = obstacle.GetComponentInChildren<Renderer>(); // fallback if Renderer is on child
+        }
+
+        if (renderer != null)
+        {
+            Material material = renderer.material;
+            Color color = material.color;
+            color.a = 0f;
+            material.color = color;
+
+            float duration = 1f; // How long the fade takes
+            float elapsed = 0f;
+
+            while (elapsed < duration)
+            {
+                color.a = Mathf.Lerp(0f, 1f, elapsed / duration);
+                material.color = color;
+                elapsed += Time.deltaTime;
+                yield return null;
+            }
+
+            color.a = 1f;
+            material.color = color;
+        }
+    }
+
 }

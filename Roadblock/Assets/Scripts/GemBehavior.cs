@@ -22,7 +22,7 @@ public class GemBehavior : MonoBehaviour
         }
         
         if (other.gameObject.CompareTag("Player"))
-        {
+        { 
             Destroy(gameObject);
             GameBehavior.Instance.ScorePoint();
         }
