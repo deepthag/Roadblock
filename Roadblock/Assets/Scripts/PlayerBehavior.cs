@@ -14,6 +14,8 @@ public class PlayerMovement : MonoBehaviour
     public KeyCode RightDirection = KeyCode.RightArrow;
     public KeyCode LeftDirection = KeyCode.LeftArrow;
     
+    // [SerializeField] private float _jumpForce = 10.0f;
+    
     [SerializeField] private float _resetTime = 0.5f;
     
     void Update()
