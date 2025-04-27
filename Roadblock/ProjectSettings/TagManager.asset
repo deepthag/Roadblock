@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Obstacle
   - Gem
+  - RoadBrick
   layers:
   - Default
   - TransparentFX
