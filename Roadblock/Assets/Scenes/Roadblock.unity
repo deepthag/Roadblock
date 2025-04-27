@@ -269,7 +269,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _forwardSpeed: 10
-  _sideMultiplier: 1
+  _sideMultiplier: 0.8
   _forwardSpeedIncrease: 0.5
   _maxForwardSpeed: 20
   RightDirection: 275
@@ -844,7 +844,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   State: 0
-  _gemBonus: 50
+  _gemBonus: 100
   _scoreUI: {fileID: 390483262}
 --- !u!1 &1885142006
 GameObject:
