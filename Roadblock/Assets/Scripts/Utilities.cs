@@ -5,6 +5,7 @@ public static class Utilities
     public enum GameplayState
     {
         Play, 
-        Pause
+        Pause,
+        GameOver
     }
 }

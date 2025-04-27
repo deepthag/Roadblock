@@ -13,45 +13,55 @@ public class PlayerMovement : MonoBehaviour
     public KeyCode LeftDirection = KeyCode.LeftArrow;
     
     [SerializeField] private float _resetTime = 0.5f;
-    void Start()
-    {
-        
-    }
     
     void Update()
     {
         if (!alive) return;
-        
-        transform.position += Vector3.forward * _forwardSpeed * Time.deltaTime;
-        
-        if (Input.GetKey(RightDirection))
+        if (GameBehavior.Instance.State == Utilities.GameplayState.Play)
         {
-            transform.position += Vector3.right * _forwardSpeed * _sideMultiplier * Time.deltaTime;
-        }
-        if (Input.GetKey(LeftDirection))
-        {
-            transform.position += Vector3.left * _forwardSpeed * _sideMultiplier * Time.deltaTime; 
-        }
+            transform.position += Vector3.forward * _forwardSpeed * Time.deltaTime;
 
-        if (transform.position.y < -10)
-        {
-            StartCoroutine(ResetGame());
+            if (Input.GetKey(RightDirection))
+            {
+                transform.position += Vector3.right * _forwardSpeed * _sideMultiplier * Time.deltaTime;
+            }
+
+            if (Input.GetKey(LeftDirection))
+            {
+                transform.position += Vector3.left * _forwardSpeed * _sideMultiplier * Time.deltaTime;
+            }
+
+            if (transform.position.y < -10)
+            {
+                StartCoroutine(ResetGame());
+            }
         }
-        
     }
 
     void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.tag == "Obstacle")
         {
+            GameBehavior.Instance.State = Utilities.GameplayState.GameOver;
             StartCoroutine(ResetGame());
         }
     }
+    
+    void OnCollisionExit(Collision collision)
+    {
+        if (collision.gameObject.tag == "RoadBrick")
+        {
+            GameBehavior.Instance.State = Utilities.GameplayState.GameOver;
+            StartCoroutine(ResetGame());
+        }
+    }
+    
     public IEnumerator ResetGame()
     {
-        alive = false;
+        alive = false; 
         yield return new WaitForSeconds(_resetTime);
         RoadBrick.roadBricksSpawned = 0;
+        GameBehavior.Instance.State = Utilities.GameplayState.Play;
         SceneManager.LoadScene("Roadblock");
     }
 }

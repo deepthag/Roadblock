@@ -3,10 +3,6 @@ using UnityEngine;
 public class GemBehavior : MonoBehaviour
 {
     public float _rotationSpeed = 90f;
-    void Start()
-    {
-        
-    }
     
     void Update()
     {
@@ -24,7 +20,7 @@ public class GemBehavior : MonoBehaviour
         if (other.gameObject.CompareTag("Player"))
         { 
             Destroy(gameObject);
-            GameBehavior.Instance.ScorePoint();
+            GameBehavior.Instance.CollectGem();
         }
         
     }

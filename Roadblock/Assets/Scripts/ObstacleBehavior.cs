@@ -7,11 +7,5 @@ public class ObstacleBehavior : MonoBehaviour
     {
         playerMovement = FindFirstObjectByType<PlayerMovement>();
     }
-
-    
-    void Update()
-    {
-        
-    }
     
 }

@@ -3,21 +3,19 @@ using TMPro;
 
 public class GameBehavior : MonoBehaviour
 {
-    private int _score;
-    public int Score
+    public Utilities.GameplayState State;
+    
+    private float _score;
+    public float _gemBonus;
+    public int DisplayedScore
     {
-        get => _score;
-        
-        set
-        {
-            _score = value;
-            _scoreUI.text = "Score: " + Score;
-        }
+        get => Mathf.FloorToInt(_score);
     }
 
     [SerializeField] private TextMeshProUGUI _scoreUI;
-    
+
     public static GameBehavior Instance;
+
     private void Awake()
     {
         if (Instance != null && Instance != this)
@@ -30,12 +28,35 @@ public class GameBehavior : MonoBehaviour
         }
     }
 
-    public void ScorePoint()
+    private void Start()
     {
-        Score++;
+        State = Utilities.GameplayState.Play;
     }
+
+    public void CollectGem ()
+    {
+        if (State == Utilities.GameplayState.Play) 
+        {
+            _score += _gemBonus; 
+            UpdateScoreUI(); 
+        }
+    }
+
     void Update()
     {
-        
+        if (State == Utilities.GameplayState.Play) 
+        {
+            _score += Time.deltaTime * 10;
+            UpdateScoreUI();
+        }
     }
+
+    void UpdateScoreUI()
+    {
+        if (State == Utilities.GameplayState.Play)
+        { 
+            _scoreUI.text = "Score: " + DisplayedScore;
+        }
+    }
+    
 }
