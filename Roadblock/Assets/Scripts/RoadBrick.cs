@@ -15,11 +15,11 @@ public class RoadBrick : MonoBehaviour
     {
         roadSpawner = FindFirstObjectByType<RoadSpawner>();
         
-        roadBricksSpawned++; // Increment the counter every time a new brick spawns
+        roadBricksSpawned++; 
 
         if (roadBricksSpawned > 3)
         {
-            StartCoroutine(DelayedSpawn()); // Start spawning obstacles only after 3 tiles
+            StartCoroutine(DelayedObstacleSpawn()); // Start spawning obstacles only after 3 tiles
         }
         
         SpawnGem();
@@ -76,7 +76,7 @@ public class RoadBrick : MonoBehaviour
         return point;
     }
     
-    public IEnumerator DelayedSpawn()
+    public IEnumerator DelayedObstacleSpawn()
     {
         yield return new WaitForSeconds(3f); 
         SpawnObstacle();
