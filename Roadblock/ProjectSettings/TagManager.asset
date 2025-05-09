@@ -7,6 +7,7 @@ TagManager:
   - Obstacle
   - Gem
   - RoadBrick
+  - Projectile
   layers:
   - Default
   - TransparentFX
