@@ -391,4 +391,4 @@ MonoBehaviour:
   gemPrefab: {fileID: 2308321389081160762, guid: 96f1dc7c430af48d3b466870c9e2e4ca, type: 3}
   gemsToSpawn: 0.5
   slowPowerupPrefab: {fileID: 2308321389081160762, guid: 31d83d5647e0f454c999a02b45fcb8a1, type: 3}
-  slowPowerupChance: 0.026
+  slowPowerupChance: 0.333
