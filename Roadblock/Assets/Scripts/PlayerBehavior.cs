@@ -17,8 +17,7 @@ public class PlayerMovement : MonoBehaviour
 
     public TMPro.TextMeshProUGUI gameOverText;
     public TMPro.TextMeshProUGUI playAgainText;
-
-    [Header("Jump Settings")]
+    
     [SerializeField] private float jumpForce = 8f;
 
     private Rigidbody rb;

@@ -7,6 +7,8 @@ public class RoadBrick : MonoBehaviour
 {
     public RoadSpawner roadSpawner;
     public GameObject obstaclePrefab;
+    public GameObject tallObstaclePrefab;
+    public float tallObstacleChance = 0.3f;
     public GameObject gemPrefab;
     [SerializeField] private int gemsToSpawn = 1;
     
@@ -39,13 +41,20 @@ public class RoadBrick : MonoBehaviour
 
     void SpawnObstacle()
     {
+        GameObject obstacleToSpawn = obstaclePrefab;
+        float rand = UnityEngine.Random.Range(0f, 1f);
+        if (rand < tallObstacleChance)
+        {
+            obstacleToSpawn = tallObstaclePrefab;
+        }
+        
         int obstacleIndex = UnityEngine.Random.Range(2, 5);
         Transform spawnPoint = transform.GetChild(obstacleIndex).transform;
 
         Vector3 offset = new Vector3(0, 0, 40f);
         Vector3 spawnPosition = spawnPoint.position + offset;
 
-        GameObject obstacle = Instantiate(obstaclePrefab, spawnPosition, Quaternion.identity, transform);
+        GameObject obstacle = Instantiate(obstacleToSpawn, spawnPosition, Quaternion.identity, transform);
         
         StartCoroutine(FadeInObstacle(obstacle));
     }
