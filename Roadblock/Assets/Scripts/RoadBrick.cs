@@ -41,12 +41,26 @@ public class RoadBrick : MonoBehaviour
     {
         
     }
-
+    
     void OnTriggerExit(Collider other)
     {
+        if (GameBehavior.Instance.State != Utilities.GameplayState.Play)
+            return;
+
         roadSpawner.SpawnTile();
-        Destroy(gameObject, 4);
+        StartCoroutine(DestroyIfStillPlaying());
     }
+
+    IEnumerator DestroyIfStillPlaying()
+    {
+        yield return new WaitForSeconds(4f);
+
+        if (GameBehavior.Instance.State == Utilities.GameplayState.Play)
+        {
+            Destroy(gameObject);
+        }
+    }
+
 
     void SpawnObstacle()
     {
@@ -128,20 +142,30 @@ public class RoadBrick : MonoBehaviour
     
     public IEnumerator DelayedObstacleSpawn()
     {
-        yield return new WaitForSeconds(3f); 
-        SpawnObstacle();
+        yield return new WaitForSeconds(3f);
+        if (GameBehavior.Instance.State == Utilities.GameplayState.Play)
+        {
+            SpawnObstacle();
+        }
     }
+
     
     public IEnumerator DelayedGemSpawn()
     {
         yield return new WaitForSeconds(3f); 
-        SpawnGem();
+        if (GameBehavior.Instance.State == Utilities.GameplayState.Play)
+        {
+            SpawnGem();
+        }
     }
     
     public IEnumerator DelayedPowerupSpawn()
     {
         yield return new WaitForSeconds(3f); 
-        SpawnPowerup();
+        if (GameBehavior.Instance.State == Utilities.GameplayState.Play)
+        {
+            SpawnPowerup();
+        }
     }
     
     IEnumerator FadeInObstacle(GameObject obstacle)
