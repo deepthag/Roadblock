@@ -169,11 +169,15 @@ public class PlayerMovement : MonoBehaviour
         isSlowed = true;
         originalForwardSpeed = _forwardSpeed;
         _forwardSpeed *= _slowFactor;
+        
+        Debug.Log("Slowing down");
 
-        yield return new WaitForSeconds(duration);
+        yield return new WaitForSeconds(5.0f);
 
         _forwardSpeed = originalForwardSpeed;
         isSlowed = false;
+        
+        Debug.Log("Back to normal speed");
     }
 
 

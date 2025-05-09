@@ -280,7 +280,7 @@ MonoBehaviour:
   projectilePrefab: {fileID: 6052908198206513619, guid: debc0a134322e40cb9b178a80245f215, type: 3}
   projectileSpawnPoint: {fileID: 1271930323}
   projectileForce: 100
-  _slowFactor: 0.2
+  _slowFactor: 5
   gameOverText: {fileID: 162527987}
   playAgainText: {fileID: 1700702535}
   jumpForce: 2

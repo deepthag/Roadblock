@@ -30,10 +30,10 @@ public class RoadBrick : MonoBehaviour
         if (roadBricksSpawned > 3)
         {
             StartCoroutine(DelayedObstacleSpawn()); // Start spawning obstacles only after 3 tiles
+            StartCoroutine(DelayedGemSpawn());
+            StartCoroutine(DelayedPowerupSpawn());
         }
         
-        SpawnGem();
-        SpawnPowerup();
     }
 
     
@@ -123,6 +123,18 @@ public class RoadBrick : MonoBehaviour
     {
         yield return new WaitForSeconds(3f); 
         SpawnObstacle();
+    }
+    
+    public IEnumerator DelayedGemSpawn()
+    {
+        yield return new WaitForSeconds(3f); 
+        SpawnGem();
+    }
+    
+    public IEnumerator DelayedPowerupSpawn()
+    {
+        yield return new WaitForSeconds(3f); 
+        SpawnPowerup();
     }
     
     IEnumerator FadeInObstacle(GameObject obstacle)
