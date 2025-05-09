@@ -40,7 +40,6 @@ public class Blink : MonoBehaviour
         // Debug.Log("I skipped a frame!");
         
         yield return new WaitForSeconds(_blinkRate);
-        Debug.Log("I skipped one second!");
         
         _inCoroutine = false;
     }
