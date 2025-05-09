@@ -21,7 +21,7 @@ public class PlayerMovement : MonoBehaviour
     public GameObject projectilePrefab;
     public Transform projectileSpawnPoint;
     public float projectileForce = 20f;
-    private float shootCooldown = 1.0f; 
+    private float shootCooldown = 2.0f; 
     private float lastShotTime = -Mathf.Infinity; 
 
     
@@ -29,7 +29,8 @@ public class PlayerMovement : MonoBehaviour
     private float originalForwardSpeed;
     private Coroutine slowDownCoroutine;
     public float _slowFactor = 0.5f;
-
+    
+    public Image cooldownBarFill;
 
     public TMPro.TextMeshProUGUI gameOverText;
     public TMPro.TextMeshProUGUI playAgainText;
@@ -85,7 +86,9 @@ public class PlayerMovement : MonoBehaviour
                 ShootProjectile();
                 lastShotTime = Time.time;
             }
-
+            
+            float timeSinceLastShot = Time.time - lastShotTime;
+            cooldownBarFill.fillAmount = Mathf.Clamp01(timeSinceLastShot / shootCooldown);
             
             if (transform.position.y < -10)
                 TriggerGameOver();

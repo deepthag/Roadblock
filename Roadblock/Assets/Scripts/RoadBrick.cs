@@ -30,10 +30,10 @@ public class RoadBrick : MonoBehaviour
         if (roadBricksSpawned > 3)
         {
             StartCoroutine(DelayedObstacleSpawn()); // Start spawning obstacles only after 3 tiles
-            StartCoroutine(DelayedGemSpawn());
-            StartCoroutine(DelayedPowerupSpawn());
         }
         
+        SpawnGem();
+        SpawnPowerup();
     }
 
     
@@ -74,7 +74,7 @@ public class RoadBrick : MonoBehaviour
             Vector3 centerPosition = transform.position + centerOffset;
 
             GameObject wideObstacle = Instantiate(obstacleToSpawn, centerPosition, Quaternion.identity, transform);
-            StartCoroutine(FadeInObstacle(wideObstacle));
+            StartCoroutine(FadeInObject(wideObstacle));
         }
         else if (rand < wideObstacleChance + tallObstacleChance)
         {
@@ -86,7 +86,7 @@ public class RoadBrick : MonoBehaviour
             Vector3 spawnPosition = spawnPoint.position + offset;
 
             GameObject obstacle = Instantiate(obstacleToSpawn, spawnPosition, Quaternion.identity, transform);
-            StartCoroutine(FadeInObstacle(obstacle));
+            StartCoroutine(FadeInObject(obstacle));
         }
         else
         {
@@ -98,7 +98,7 @@ public class RoadBrick : MonoBehaviour
             Vector3 spawnPosition = spawnPoint.position + offset;
 
             GameObject obstacle = Instantiate(obstacleToSpawn, spawnPosition, Quaternion.identity, transform);
-            StartCoroutine(FadeInObstacle(obstacle));
+            StartCoroutine(FadeInObject(obstacle));
         }
     }
 
@@ -108,6 +108,7 @@ public class RoadBrick : MonoBehaviour
         {
             GameObject temp = Instantiate(gemPrefab, transform);
             temp.transform.position = GetRandomPointInCollider(GetComponent<Collider>());
+            StartCoroutine(FadeInObject(temp));
         }
     }
 
@@ -137,6 +138,7 @@ public class RoadBrick : MonoBehaviour
 
         Vector3 spawnPos = GetRandomPointInCollider(GetComponent<Collider>());
         GameObject powerup = Instantiate(slowPowerupPrefab, spawnPos, Quaternion.identity, transform);
+        StartCoroutine(FadeInObject(powerup));
     }
 
     
@@ -150,41 +152,34 @@ public class RoadBrick : MonoBehaviour
     }
 
     
-    public IEnumerator DelayedGemSpawn()
-    {
-        yield return new WaitForSeconds(3f); 
-        if (GameBehavior.Instance.State == Utilities.GameplayState.Play)
-        {
-            SpawnGem();
-        }
-    }
     
-    public IEnumerator DelayedPowerupSpawn()
-    {
-        yield return new WaitForSeconds(3f); 
-        if (GameBehavior.Instance.State == Utilities.GameplayState.Play)
-        {
-            SpawnPowerup();
-        }
-    }
-    
-    IEnumerator FadeInObstacle(GameObject obstacle)
+    IEnumerator FadeInObject(GameObject obstacle)
     {
         Renderer renderer = obstacle.GetComponent<Renderer>();
 
         if (renderer == null)
         {
-            renderer = obstacle.GetComponentInChildren<Renderer>(); // fallback if Renderer is on child
+            renderer = obstacle.GetComponentInChildren<Renderer>(); 
         }
 
         if (renderer != null)
         {
             Material material = renderer.material;
+            
+            material.SetFloat("_Mode", 2); 
+            material.SetInt("_SrcBlend", (int)UnityEngine.Rendering.BlendMode.SrcAlpha);
+            material.SetInt("_DstBlend", (int)UnityEngine.Rendering.BlendMode.OneMinusSrcAlpha);
+            material.SetInt("_ZWrite", 0);
+            material.DisableKeyword("_ALPHATEST_ON");
+            material.EnableKeyword("_ALPHABLEND_ON");
+            material.DisableKeyword("_ALPHAPREMULTIPLY_ON");
+            material.renderQueue = 3000;
+
             Color color = material.color;
             color.a = 0f;
             material.color = color;
 
-            float duration = 1f; // How long the fade takes
+            float duration = 1f;
             float elapsed = 0f;
 
             while (elapsed < duration)
@@ -199,5 +194,6 @@ public class RoadBrick : MonoBehaviour
             material.color = color;
         }
     }
+
 
 }
