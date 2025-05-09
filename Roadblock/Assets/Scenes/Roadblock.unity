@@ -274,8 +274,10 @@ MonoBehaviour:
   _maxForwardSpeed: 20
   RightDirection: 275
   LeftDirection: 276
+  UpDirection: 273
   gameOverText: {fileID: 162527987}
   playAgainText: {fileID: 1700702535}
+  jumpForce: 2
 --- !u!1 &162527985
 GameObject:
   m_ObjectHideFlags: 0
