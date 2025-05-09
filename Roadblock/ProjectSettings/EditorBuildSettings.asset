@@ -6,6 +6,9 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
+    path: Assets/Scenes/Home.unity
+    guid: 40ecf4955e47a4959ad584bae0644c73
+  - enabled: 1
     path: Assets/Scenes/Roadblock.unity
     guid: 99c9720ab356a0642a771bea13969a05
   m_configObjects:
