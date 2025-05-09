@@ -21,6 +21,9 @@ public class PlayerMovement : MonoBehaviour
     public GameObject projectilePrefab;
     public Transform projectileSpawnPoint;
     public float projectileForce = 20f;
+    private float shootCooldown = 1.0f; 
+    private float lastShotTime = -Mathf.Infinity; 
+
     
     private bool isSlowed = false;
     private float originalForwardSpeed;
@@ -77,10 +80,12 @@ public class PlayerMovement : MonoBehaviour
                 isGrounded = false;
             }
             
-            if (Input.GetKeyDown(Shoot))
+            if (Input.GetKeyDown(Shoot) && Time.time >= lastShotTime + shootCooldown)
             {
                 ShootProjectile();
+                lastShotTime = Time.time;
             }
+
             
             if (transform.position.y < -10)
                 TriggerGameOver();
