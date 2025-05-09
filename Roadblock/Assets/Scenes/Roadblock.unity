@@ -280,7 +280,7 @@ MonoBehaviour:
   projectilePrefab: {fileID: 6052908198206513619, guid: debc0a134322e40cb9b178a80245f215, type: 3}
   projectileSpawnPoint: {fileID: 1271930323}
   projectileForce: 100
-  _slowFactor: 5
+  _slowFactor: 0.5
   gameOverText: {fileID: 162527987}
   playAgainText: {fileID: 1700702535}
   jumpForce: 2
@@ -959,7 +959,7 @@ Transform:
   m_GameObject: {fileID: 1271930322}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.3, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

@@ -14,7 +14,7 @@ public class RoadBrick : MonoBehaviour
     
     
     public GameObject gemPrefab;
-    [SerializeField] private int gemsToSpawn = 1;
+    [SerializeField] private float gemsToSpawn = 0.5f;
     
     public GameObject slowPowerupPrefab;
     [Range(0f, 1f)]

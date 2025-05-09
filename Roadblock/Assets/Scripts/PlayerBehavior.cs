@@ -110,16 +110,20 @@ public class PlayerMovement : MonoBehaviour
         {
             TriggerGameOver(); 
         }
-        
-        if (collision.gameObject.CompareTag("Freeze"))
+    }
+    
+    void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Freeze"))
         {
             if (!isSlowed)
             {
-                ApplySlow(0.5f, 5f);
+                ApplySlow(_slowFactor, 5f); 
             }
-            Destroy(collision.gameObject); 
+            Destroy(other.gameObject); 
         }
     }
+
 
     void TriggerGameOver()
     {
