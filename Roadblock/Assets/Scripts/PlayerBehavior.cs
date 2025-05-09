@@ -11,6 +11,7 @@ public class PlayerMovement : MonoBehaviour
     public float _sideMultiplier = 1.2f;
     public float _forwardSpeedIncrease = 0.1f;
     public float _maxForwardSpeed = 20.0f;
+    public float _sideSpeed = 12.0f;
 
     public KeyCode RightDirection = KeyCode.RightArrow;
     public KeyCode LeftDirection = KeyCode.LeftArrow;
@@ -62,10 +63,10 @@ public class PlayerMovement : MonoBehaviour
             transform.position += Vector3.forward * _forwardSpeed * Time.deltaTime;
             
             if (Input.GetKey(RightDirection))
-                transform.position += Vector3.right * _forwardSpeed * _sideMultiplier * Time.deltaTime;
+                transform.position += Vector3.right * _sideSpeed * Time.deltaTime;
 
             if (Input.GetKey(LeftDirection))
-                transform.position += Vector3.left * _forwardSpeed * _sideMultiplier * Time.deltaTime;
+                transform.position += Vector3.left * _sideSpeed * Time.deltaTime;
             
             if (Input.GetKeyDown(UpDirection) && isGrounded)
             {

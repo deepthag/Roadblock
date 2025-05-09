@@ -50,35 +50,42 @@ public class RoadBrick : MonoBehaviour
 
     void SpawnObstacle()
     {
-        GameObject obstacleToSpawn = obstaclePrefab;
         float rand = UnityEngine.Random.Range(0f, 1f);
-        
-        if (rand < tallObstacleChance)
-        {
-            obstacleToSpawn = tallObstaclePrefab;
-        }
+        GameObject obstacleToSpawn;
 
         if (rand < wideObstacleChance)
         {
             obstacleToSpawn = wideObstaclePrefab;
-            
             Vector3 centerOffset = new Vector3(0, 0, 40f);
             Vector3 centerPosition = transform.position + centerOffset;
 
             GameObject wideObstacle = Instantiate(obstacleToSpawn, centerPosition, Quaternion.identity, transform);
             StartCoroutine(FadeInObstacle(wideObstacle));
-            return;
         }
-        
-        int obstacleIndex = UnityEngine.Random.Range(2, 5);
-        Transform spawnPoint = transform.GetChild(obstacleIndex).transform;
+        else if (rand < wideObstacleChance + tallObstacleChance)
+        {
+            obstacleToSpawn = tallObstaclePrefab;
 
-        Vector3 offset = new Vector3(0, 0, 40f);
-        Vector3 spawnPosition = spawnPoint.position + offset;
+            int obstacleIndex = UnityEngine.Random.Range(2, 5);
+            Transform spawnPoint = transform.GetChild(obstacleIndex).transform;
+            Vector3 offset = new Vector3(0, 0, 40f);
+            Vector3 spawnPosition = spawnPoint.position + offset;
 
-        GameObject obstacle = Instantiate(obstacleToSpawn, spawnPosition, Quaternion.identity, transform);
-        
-        StartCoroutine(FadeInObstacle(obstacle));
+            GameObject obstacle = Instantiate(obstacleToSpawn, spawnPosition, Quaternion.identity, transform);
+            StartCoroutine(FadeInObstacle(obstacle));
+        }
+        else
+        {
+            obstacleToSpawn = obstaclePrefab;
+
+            int obstacleIndex = UnityEngine.Random.Range(2, 5);
+            Transform spawnPoint = transform.GetChild(obstacleIndex).transform;
+            Vector3 offset = new Vector3(0, 0, 40f);
+            Vector3 spawnPosition = spawnPoint.position + offset;
+
+            GameObject obstacle = Instantiate(obstacleToSpawn, spawnPosition, Quaternion.identity, transform);
+            StartCoroutine(FadeInObstacle(obstacle));
+        }
     }
 
     void SpawnGem()

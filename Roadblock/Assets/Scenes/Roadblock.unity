@@ -270,9 +270,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _forwardSpeed: 10
-  _sideMultiplier: 0.8
+  _sideMultiplier: 1
   _forwardSpeedIncrease: 0.5
   _maxForwardSpeed: 30
+  _sideSpeed: 8
   RightDirection: 275
   LeftDirection: 276
   UpDirection: 273
