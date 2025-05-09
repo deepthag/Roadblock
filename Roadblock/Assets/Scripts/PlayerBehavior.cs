@@ -14,6 +14,10 @@ public class PlayerMovement : MonoBehaviour
     public KeyCode RightDirection = KeyCode.RightArrow;
     public KeyCode LeftDirection = KeyCode.LeftArrow;
     public KeyCode UpDirection = KeyCode.UpArrow;
+    
+    public GameObject projectilePrefab;
+    public Transform projectileSpawnPoint;
+    public float projectileForce = 20f;
 
     public TMPro.TextMeshProUGUI gameOverText;
     public TMPro.TextMeshProUGUI playAgainText;
@@ -69,6 +73,12 @@ public class PlayerMovement : MonoBehaviour
                 // Mark the player as not grounded after jumping
                 isGrounded = false;
             }
+            
+            // Shooting
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                ShootProjectile();
+            }
 
             // Fall below death line (trigger game over)
             if (transform.position.y < -10)
@@ -116,4 +126,18 @@ public class PlayerMovement : MonoBehaviour
         if (playAgainText != null)
             playAgainText.gameObject.SetActive(true);
     }
+    
+    void ShootProjectile()
+    {
+        if (projectilePrefab == null || projectileSpawnPoint == null) return;
+
+        GameObject projectile = Instantiate(projectilePrefab, projectileSpawnPoint.position, Quaternion.identity);
+        Rigidbody projRb = projectile.GetComponent<Rigidbody>();
+
+        if (projRb != null)
+        {
+            projRb.AddForce(Vector3.forward * projectileForce, ForceMode.Impulse);
+        }
+    }
+
 }
