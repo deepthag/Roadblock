@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 8057190239126830325}
   - component: {fileID: 3750463788894186244}
   m_Layer: 0
-  m_Name: Gem
+  m_Name: PointGems
   m_TagString: Gem
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -106,7 +106,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7460558045485879012}
   - component: {fileID: 249359583400011636}
-  - component: {fileID: 7175032353846631953}
+  - component: {fileID: 1061515994112265984}
   m_Layer: 0
   m_Name: Cone
   m_TagString: Untagged
@@ -137,7 +137,7 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4782780052518174396}
   m_Mesh: {fileID: 3613567641014311022, guid: c7077c8650402402b983c6bbdcfb6dd0, type: 3}
---- !u!23 &7175032353846631953
+--- !u!23 &1061515994112265984
 MeshRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -160,7 +160,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 8010958189152237515, guid: c7077c8650402402b983c6bbdcfb6dd0, type: 3}
+  - {fileID: 8010958189152237515, guid: 6459f5efd1d244346a2558592a792064, type: 3}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

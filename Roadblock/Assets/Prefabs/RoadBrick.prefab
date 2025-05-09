@@ -386,5 +386,9 @@ MonoBehaviour:
   obstaclePrefab: {fileID: 3835204873072871073, guid: fa61f7b5ed8674f5e88832e9ca17f161, type: 3}
   tallObstaclePrefab: {fileID: 3835204873072871073, guid: fd02431be6033472fb4f099a94aaaeab, type: 3}
   tallObstacleChance: 0.3
-  gemPrefab: {fileID: 2308321389081160762, guid: 31d83d5647e0f454c999a02b45fcb8a1, type: 3}
+  wideObstaclePrefab: {fileID: 3835204873072871073, guid: 0ab423e1c4cdf4381a93521d33e6b462, type: 3}
+  wideObstacleChance: 0.1
+  gemPrefab: {fileID: 2308321389081160762, guid: 96f1dc7c430af48d3b466870c9e2e4ca, type: 3}
   gemsToSpawn: 1
+  slowPowerupPrefab: {fileID: 2308321389081160762, guid: 31d83d5647e0f454c999a02b45fcb8a1, type: 3}
+  slowPowerupChance: 0.85

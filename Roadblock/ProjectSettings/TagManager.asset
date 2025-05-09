@@ -8,6 +8,7 @@ TagManager:
   - Gem
   - RoadBrick
   - Projectile
+  - Freeze
   layers:
   - Default
   - TransparentFX

@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using System.Collections;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -14,10 +15,17 @@ public class PlayerMovement : MonoBehaviour
     public KeyCode RightDirection = KeyCode.RightArrow;
     public KeyCode LeftDirection = KeyCode.LeftArrow;
     public KeyCode UpDirection = KeyCode.UpArrow;
+    public KeyCode Shoot = KeyCode.Space;
     
     public GameObject projectilePrefab;
     public Transform projectileSpawnPoint;
     public float projectileForce = 20f;
+    
+    private bool isSlowed = false;
+    private float originalForwardSpeed;
+    private Coroutine slowDownCoroutine;
+    public float _slowFactor = 0.5f;
+
 
     public TMPro.TextMeshProUGUI gameOverText;
     public TMPro.TextMeshProUGUI playAgainText;
@@ -46,41 +54,33 @@ public class PlayerMovement : MonoBehaviour
             return;
         }
 
-        // Handle movement and jumping
+        // movement and jumping
         if (GameBehavior.Instance.State == Utilities.GameplayState.Play)
         {
-            // Increase forward speed over time
             _forwardSpeed += _forwardSpeedIncrease * Time.deltaTime;
             _forwardSpeed = Mathf.Clamp(_forwardSpeed, 10.0f, _maxForwardSpeed);
             transform.position += Vector3.forward * _forwardSpeed * Time.deltaTime;
-
-            // Side movement (left/right)
+            
             if (Input.GetKey(RightDirection))
                 transform.position += Vector3.right * _forwardSpeed * _sideMultiplier * Time.deltaTime;
 
             if (Input.GetKey(LeftDirection))
                 transform.position += Vector3.left * _forwardSpeed * _sideMultiplier * Time.deltaTime;
-
-            // Jumping mechanic
+            
             if (Input.GetKeyDown(UpDirection) && isGrounded)
             {
-                // Reset vertical velocity before jump to ensure a clean jump
                 rb.linearVelocity = new Vector3(rb.linearVelocity.x, 0, rb.linearVelocity.z); 
-
-                // Add force upwards to simulate the jump
+                
                 rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
-
-                // Mark the player as not grounded after jumping
+                
                 isGrounded = false;
             }
             
-            // Shooting
-            if (Input.GetKeyDown(KeyCode.Space))
+            if (Input.GetKeyDown(Shoot))
             {
                 ShootProjectile();
             }
-
-            // Fall below death line (trigger game over)
+            
             if (transform.position.y < -10)
                 TriggerGameOver();
         }
@@ -92,17 +92,15 @@ public class PlayerMovement : MonoBehaviour
         {
             TriggerGameOver(); 
         }
-
-        // Check if the player is on the ground (touching road brick)
+        
         if (collision.gameObject.CompareTag("RoadBrick"))
         {
-            isGrounded = true; // The player is grounded if they collide with a road brick
+            isGrounded = true; 
         }
     }
 
     void OnCollisionExit(Collision collision)
     {
-        // Player is no longer grounded if they leave the road brick
         if (collision.gameObject.CompareTag("RoadBrick"))
         {
             isGrounded = false;
@@ -111,6 +109,15 @@ public class PlayerMovement : MonoBehaviour
         if (collision.gameObject.CompareTag("Obstacle"))
         {
             TriggerGameOver(); 
+        }
+        
+        if (collision.gameObject.CompareTag("Freeze"))
+        {
+            if (!isSlowed)
+            {
+                ApplySlow(0.5f, 5f);
+            }
+            Destroy(collision.gameObject); 
         }
     }
 
@@ -138,6 +145,37 @@ public class PlayerMovement : MonoBehaviour
         {
             projRb.AddForce(Vector3.forward * projectileForce, ForceMode.Impulse);
         }
+        
+        Collider projCollider = projectile.GetComponent<Collider>();
+        Collider playerCollider = GetComponent<Collider>();
+        if (projCollider != null && playerCollider != null)
+        {
+            Physics.IgnoreCollision(projCollider, playerCollider);
+        }
     }
+    
+    public void ApplySlow(float slowFactor, float duration)
+    {
+        if (isSlowed) return;
+        
+        if (slowDownCoroutine != null)
+            StopCoroutine(slowDownCoroutine);
+
+        slowDownCoroutine = StartCoroutine(SlowDownCoroutine(slowFactor, duration));
+    }
+
+    private IEnumerator SlowDownCoroutine(float slowFactor, float duration)
+    {
+        isSlowed = true;
+        originalForwardSpeed = _forwardSpeed;
+        _forwardSpeed *= _slowFactor;
+
+        yield return new WaitForSeconds(duration);
+
+        _forwardSpeed = originalForwardSpeed;
+        isSlowed = false;
+    }
+
+
 
 }

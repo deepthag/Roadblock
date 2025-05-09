@@ -9,8 +9,16 @@ public class RoadBrick : MonoBehaviour
     public GameObject obstaclePrefab;
     public GameObject tallObstaclePrefab;
     public float tallObstacleChance = 0.3f;
+    public GameObject wideObstaclePrefab;
+    public float wideObstacleChance = 0.1f;
+    
+    
     public GameObject gemPrefab;
     [SerializeField] private int gemsToSpawn = 1;
+    
+    public GameObject slowPowerupPrefab;
+    [Range(0f, 1f)]
+    public float slowPowerupChance = 0.2f;
     
     public static int roadBricksSpawned = 0;
     void Start()
@@ -25,6 +33,7 @@ public class RoadBrick : MonoBehaviour
         }
         
         SpawnGem();
+        SpawnPowerup();
     }
 
     
@@ -43,9 +52,22 @@ public class RoadBrick : MonoBehaviour
     {
         GameObject obstacleToSpawn = obstaclePrefab;
         float rand = UnityEngine.Random.Range(0f, 1f);
+        
         if (rand < tallObstacleChance)
         {
             obstacleToSpawn = tallObstaclePrefab;
+        }
+
+        if (rand < wideObstacleChance)
+        {
+            obstacleToSpawn = wideObstaclePrefab;
+            
+            Vector3 centerOffset = new Vector3(0, 0, 40f);
+            Vector3 centerPosition = transform.position + centerOffset;
+
+            GameObject wideObstacle = Instantiate(obstacleToSpawn, centerPosition, Quaternion.identity, transform);
+            StartCoroutine(FadeInObstacle(wideObstacle));
+            return;
         }
         
         int obstacleIndex = UnityEngine.Random.Range(2, 5);
@@ -84,6 +106,18 @@ public class RoadBrick : MonoBehaviour
         point.y = 0.25f;
         return point;
     }
+    
+    void SpawnPowerup()
+    {
+        if (slowPowerupPrefab == null) return;
+
+        float rand = UnityEngine.Random.Range(0f, 1f);
+        if (rand > slowPowerupChance) return;
+
+        Vector3 spawnPos = GetRandomPointInCollider(GetComponent<Collider>());
+        GameObject powerup = Instantiate(slowPowerupPrefab, spawnPos, Quaternion.identity, transform);
+    }
+
     
     public IEnumerator DelayedObstacleSpawn()
     {
